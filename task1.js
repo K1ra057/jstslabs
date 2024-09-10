@@ -46,10 +46,9 @@ var Fish = /** @class */ (function () {
     };
     return Fish;
 }());
-// Створюємо екземпляри класів з віком і без віку
 var cat = new Cat("Whiskers", 3);
-cat.move(); // Whiskers, aged 3, is walking gracefully.
+cat.move();
 var bird = new Bird("Tweety");
-bird.move(); // Tweety is flying high.
+bird.move();
 var fish = new Fish("Nemo", 2);
-fish.move(); // Nemo, aged 2, is swimming swiftly.
+fish.move();

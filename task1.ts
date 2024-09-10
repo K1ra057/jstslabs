@@ -1,8 +1,7 @@
-// Описуємо інтерфейс Animal з властивостями та методом
 interface Animal {
-    name: string;         // Ім'я тварини (обов'язкова властивість)
-    age?: number;         // Вік тварини (опціональна властивість)
-    move(): void;         // Метод для опису способу пересування
+    name: string;         
+    age?: number;         
+    move(): void;         
 }
 
 // Реалізація класу Cat, що імплементує інтерфейс Animal
@@ -62,12 +61,11 @@ class Fish implements Animal {
     }
 }
 
-// Створюємо екземпляри класів з віком і без віку
 const cat = new Cat("Whiskers", 3);
-cat.move();  // Whiskers, aged 3, is walking gracefully.
+cat.move();  
 
 const bird = new Bird("Tweety");
-bird.move(); // Tweety is flying high.
+bird.move(); 
 
 const fish = new Fish("Nemo", 2);
-fish.move(); // Nemo, aged 2, is swimming swiftly.
+fish.move(); 
