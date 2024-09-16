@@ -14,7 +14,7 @@
         <!-- Форма для додавання книги -->
         <div class="form-section mb-5">
             <h3>Додати книгу</h3>
-            <form id="book-form" class="row g-3"> <!-- Форма для додавання книги -->
+            <form id="book-form" class="row g-3">
                 <div class="col-md-4">
                     <label for="title" class="form-label">Назва книги</label>
                     <input type="text" class="form-control" id="title" placeholder="Введіть назву">
@@ -36,7 +36,7 @@
         <!-- Форма для додавання користувача -->
         <div class="form-section mb-5">
             <h3>Додати користувача</h3>
-            <form id="user-form" class="row g-3"> <!-- Форма для додавання користувача -->
+            <form id="user-form" class="row g-3">
                 <div class="col-md-6">
                     <label for="userId" class="form-label">ID користувача</label>
                     <input type="text" class="form-control" id="userId" placeholder="Введіть ID">
@@ -60,7 +60,7 @@
                     <input type="text" class="form-control" id="deleteBookId" placeholder="Введіть ID книги">
                 </div>
                 <div class="col-md-6">
-                    <input type="button" id="deleteBookButton" class="btn btn-danger" value= "Видалити книгу"> <!-- Кнопка для видалення книги -->
+                    <input type="button" id="deleteBookButton" class="btn btn-danger" value="Видалити книгу">
                 </div>
             </div>
         </div>
@@ -74,9 +74,73 @@
                     <input type="text" class="form-control" id="deleteUserId" placeholder="Введіть ID користувача">
                 </div>
                 <div class="col-md-6">
-                    <input type="button" id="deleteUserButton" class="btn btn-danger" value="Видалити користувача"> <!-- Кнопка для видалення користувача -->
+                    <input type="button" id="deleteUserButton" class="btn btn-danger" value="Видалити користувача">
                 </div>
             </div>
+        </div>
+
+        <!-- Форма для позичання книги -->
+        <div class="form-section mb-5">
+            <h3>Позичити книгу</h3>
+            <form id="borrow-form" class="row g-3">
+                <div class="col-md-6">
+                    <label for="borrowBookId" class="form-label">ID книги</label>
+                    <input type="text" class="form-control" id="borrowBookId" placeholder="Введіть ID книги">
+                </div>
+                <div class="col-md-6">
+                    <label for="borrowUserId" class="form-label">ID користувача</label>
+                    <input type="text" class="form-control" id="borrowUserId" placeholder="Введіть ID користувача">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Позичити книгу</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Форма для повернення книги -->
+        <div class="form-section mb-5">
+            <h3>Повернути книгу</h3>
+            <form id="return-form" class="row g-3">
+                <div class="col-md-6">
+                    <label for="returnBookId" class="form-label">ID книги</label>
+                    <input type="text" class="form-control" id="returnBookId" placeholder="Введіть ID книги">
+                </div>
+                <div class="col-md-6">
+                    <label for="returnUserId" class="form-label">ID користувача</label>
+                    <input type="text" class="form-control" id="returnUserId" placeholder="Введіть ID користувача">
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Повернути книгу</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Форма для пошуку книг -->
+        <div class="form-section mb-5">
+            <h3>Шукати книгу</h3>
+            <form id="search-form" class="d-flex mb-3">
+                <input type="text" id="searchTerm" class="form-control me-2" placeholder="Назва або автор">
+                <button type="submit" class="btn btn-primary">Пошук</button>
+            </form>
+        </div>
+
+        <!-- Місце для відображення результатів пошуку -->
+        <div id="search-results" class="d-none mb-5">
+            <h3>Результати пошуку</h3>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Назва</th>
+                        <th>Автор</th>
+                        <th>Рік видання</th>
+                        <th>Статус</th>
+                    </tr>
+                </thead>
+                <tbody id="search-book-list">
+                    <!-- Результати пошуку будуть додані сюди -->
+                </tbody>
+            </table>
         </div>
 
         <!-- Таблиця книг -->
@@ -115,45 +179,6 @@
             </table>
         </div>
     </div>
-<!-- Форма для позичання книги -->
-<div class="form-section mb-5">
-    <h3>Позичити книгу</h3>
-    <form id="borrow-form" class="row g-3">
-        <div class="col-md-6">
-            <label for="borrowBookId" class="form-label">ID книги</label>
-            <input type="text" class="form-control" id="borrowBookId" placeholder="Введіть ID книги">
-        </div>
-        <div class="col-md-6">
-            <label for="borrowUserId" class="form-label">ID користувача</label>
-            <input type="text" class="form-control" id="borrowUserId" placeholder="Введіть ID користувача">
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Позичити книгу</button>
-        </div>
-    </form>
-</div>
-
-
-
-<!-- Форма для повернення книги -->
-<div class="form-section mb-5">
-    <h3>Повернути книгу</h3>
-    <form id="return-form" class="row g-3">
-        <div class="col-md-6">
-            <label for="returnBookId" class="form-label">ID книги</label>
-            <input type="text" class="form-control" id="returnBookId" placeholder="Введіть ID книги">
-        </div>
-        <div class="col-md-6">
-            <label for="returnUserId" class="form-label">ID користувача</label>
-            <input type="text" class="form-control" id="returnUserId" placeholder="Введіть ID користувача">
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Повернути книгу</button>
-        </div>
-    </form>
-</div>
-
-
     <script src="./dist/main.js"></script>
 </body>
 </html>

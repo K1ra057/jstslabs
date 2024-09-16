@@ -153,6 +153,7 @@ function deleteUserById(): void {
 
 // Позичання книги
 // Позичання книги користувачем
+// Позичання книги
 function borrowBook(event: Event): void {
     event.preventDefault();
 
@@ -163,12 +164,18 @@ function borrowBook(event: Event): void {
     const user = userLibrary.findById(userId, (u: User) => u.id === userId);
 
     if (!book || !user) {
-        NotificationService.notify('Книга або користувач не знайдені');
+        NotificationService.notify('Книга або користувач не знайдені', 'error');
         return;
     }
 
     if (book.isBorrowed) {
-        NotificationService.notify('Книга вже позичена');
+        NotificationService.notify('Книга вже позичена', 'error');
+        return;
+    }
+
+    const maxBooks = 3; // Максимальна кількість книг, яку може позичити користувач
+    if (!Validation.canUserBorrowMoreBooks(user.borrowedBooks.length, maxBooks)) {
+        NotificationService.notify('Не можна брати більше ніж 3 книги', 'error');
         return;
     }
 
@@ -180,7 +187,7 @@ function borrowBook(event: Event): void {
         updateUserTable();
         NotificationService.notify('Книга успішно позичена');
     } else {
-        NotificationService.notify('Користувач не може позичити більше книг');
+        NotificationService.notify('Не вдалося позичити книгу', 'error');
     }
 
     // Очищення полів вводу
@@ -189,7 +196,7 @@ function borrowBook(event: Event): void {
 }
 
 
-// Повернення книги
+
 // Повернення книги
 function returnBook(event: Event): void {
     event.preventDefault();
@@ -224,6 +231,50 @@ function returnBook(event: Event): void {
     bookIdInput.value = '';
     userIdInput.value = '';
 }
+// Пошук книг за автором або назвою
+// Пошук книг за автором або назвою
+function searchBooks(event: Event): void {
+    event.preventDefault();
+
+    const searchTerm = (document.getElementById('searchTerm') as HTMLInputElement).value.toLowerCase();
+
+    if (searchTerm === '') {
+        NotificationService.notify('Будь ласка, введіть пошуковий запит', 'error');
+        return;
+    }
+
+    const searchResults = bookLibrary.getAll().filter((book) =>
+        book.title.toLowerCase().includes(searchTerm) || book.author.toLowerCase().includes(searchTerm)
+    );
+
+    updateSearchResults(searchResults);
+}
+
+// Оновлення таблиці результатів пошуку
+function updateSearchResults(books: Book[]): void {
+    const searchBookList = document.getElementById('search-book-list')!;
+    const searchResultsTable = document.getElementById('search-results')!;
+    searchBookList.innerHTML = '';
+
+    books.forEach((book) => {
+        const row = `<tr>
+            <td>${book.id}</td>
+            <td>${book.title}</td>
+            <td>${book.author}</td>
+            <td>${book.year}</td>
+            <td>${book.isBorrowed ? 'Позичено' : 'Доступно'}</td>
+        </tr>`;
+        searchBookList.insertAdjacentHTML('beforeend', row);
+    });
+
+    if (books.length === 0) {
+        searchBookList.innerHTML = '<tr><td colspan="5">Книг не знайдено</td></tr>';
+    }
+
+    // Показати таблицю результатів
+    searchResultsTable.classList.remove('d-none');
+}
+
 
 
 // Ініціалізація програми
@@ -233,7 +284,8 @@ function init(): void {
     const deleteBookButton = document.getElementById('deleteBookButton');
     const deleteUserButton = document.getElementById('deleteUserButton');
     const borrowBookForm = document.getElementById('borrow-form');
-    const returnBookForm = document.getElementById('return-form'); // Оголошення змінної
+    const returnBookForm = document.getElementById('return-form');
+    const searchForm = document.getElementById('search-form');
 
     // Форма для додавання книги
     if (bookForm) {
@@ -265,8 +317,15 @@ function init(): void {
         returnBookForm.addEventListener('submit', returnBook);
     }
 
+    // Форма для пошуку книг
+    if (searchForm) {
+        searchForm.addEventListener('submit', searchBooks);
+    }
+
     loadData();
 }
+
+
 
 
 // Ініціалізація програми

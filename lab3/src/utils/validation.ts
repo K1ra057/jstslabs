@@ -6,4 +6,8 @@ export class Validation {
     static isValidYear(year: string): boolean {
         return /^[0-9]{4}$/.test(year);
     }
+
+    static canUserBorrowMoreBooks(borrowedBooksCount: number, maxBooks: number): boolean {
+        return borrowedBooksCount < maxBooks;
+    }
 }
