@@ -32,23 +32,28 @@
             </form>
         </div>
 
-        <!-- Форма для додавання користувача -->
-        <div class="form-section mb-5">
-            <h3>Додати користувача</h3>
-            <form id="user-form" class="row g-3">
-                <div class="col-md-6">
-                    <label for="userId" class="form-label">ID користувача</label>
-                    <input type="text" class="form-control" id="userId" placeholder="Введіть ID">
-                </div>
-                <div class="col-md-6">
-                    <label for="userName" class="form-label">Ім'я користувача</label>
-                    <input type="text" class="form-control" id="userName" placeholder="Введіть ім'я">
-                </div>
-                <div class="col-12">
-                    <button type="submit" class="btn btn-primary">Додати користувача</button>
-                </div>
-            </form>
+<!-- Форма для додавання користувача -->
+<div class="form-section mb-5">
+    <h3>Додати користувача</h3>
+    <form id="user-form" class="row g-3">
+        <!-- Автоматичне створення ID, тому поле приховане -->
+        <input type="hidden" id="userId">
+        
+        <div class="col-md-6">
+            <label for="userName" class="form-label">Ім'я користувача</label>
+            <input type="text" class="form-control" id="userName" placeholder="Введіть ім'я">
         </div>
+        
+        <div class="col-md-6">
+            <label for="userEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="userEmail" placeholder="Введіть email" required>
+        </div>
+        
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Додати користувача</button>
+        </div>
+    </form>
+</div>
 
       
 
@@ -139,24 +144,25 @@
             </table>
         </div>
 
-        <!-- Таблиця користувачів -->
-        <div class="mb-5">
-            <h3>Список користувачів</h3>
-            <table class="table table-bordered">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Ім'я</th>
-                        <th>Позичені книги</th>
-                        <th>Видалити користувача</th>
-                    </tr>
-                </thead>
-                <tbody id="user-list">
-                    <!-- Список користувачів буде динамічно додаватись -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+<!-- Таблиця користувачів -->
+<div class="mb-5">
+    <h3>Список користувачів</h3>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Ім'я</th>
+                <th>Email</th> <!-- Додано стовпець Email -->
+                <th>Позичені книги</th>
+                <th>Видалити користувача</th>
+            </tr>
+        </thead>
+        <tbody id="user-list">
+            <!-- Список користувачів буде динамічно додаватись -->
+        </tbody>
+    </table>
+</div>
+
 
     <!-- Bootstrap модальне вікно для сповіщень -->
 <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">

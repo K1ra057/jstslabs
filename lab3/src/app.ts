@@ -20,7 +20,7 @@ function loadData(): void {
     });
 
     storedUsers.forEach((userData: any) => {
-        const user = new User(userData.id, userData.name);
+        const user = new User(userData.id, userData.name, userData.email);
         user.borrowedBooks = userData.borrowedBooks;
         userLibrary.add(user);
     });
@@ -54,6 +54,7 @@ function updateBookTable(): void {
 }
 
 // Оновлення таблиці користувачів
+// Оновлення таблиці користувачів
 function updateUserTable(): void {
     const userList = document.getElementById('user-list')!;
     userList.innerHTML = '';
@@ -62,18 +63,20 @@ function updateUserTable(): void {
         const row = `<tr>
             <td>${user.id}</td>
             <td>${user.name}</td>
+            <td>${user.email}</td> <!-- Додано поле Email -->
             <td>${user.borrowedBooks.length}</td>
-            <td><button data-id="${user.id}"   class="btn btn-danger btn-delete-user">Видалити користувача</td>
+            <td><button data-id="${user.id}" class="btn btn-danger btn-delete-user">Видалити користувача</td>
         </tr>`;
         userList.insertAdjacentHTML('beforeend', row);
         document.querySelectorAll<HTMLButtonElement>('.btn-delete-user').forEach(button => {
             button.addEventListener('click', function () {
-                const userId = (this.getAttribute('data-id') as string); // Explicitly type it as string
-                deleteUserById(Number(userId)); // Convert to number since bookId is typed as number
+                const userId = (this.getAttribute('data-id') as string);
+                deleteUserById(Number(userId));
             });
         });
     });
 }
+
 
 // Додавання книги
 function addBook(event: Event): void {
@@ -100,22 +103,43 @@ function addBook(event: Event): void {
 }
 
 // Додавання користувача
+// Додавання користувача
 function addUser(event: Event): void {
     event.preventDefault();
 
-    const userId = (document.getElementById('userId') as HTMLInputElement).value;
-    const userName = (document.getElementById('userName') as HTMLInputElement).value;
+    // Генеруємо ID через new Date().getTime()
+    const userId = new Date().getTime(); 
+    
+    // Отримуємо елементи за ID
+    const nameElement = document.getElementById('userName') as HTMLInputElement;
+    const emailElement = document.getElementById('userEmail') as HTMLInputElement;
 
-    if (Validation.isNumber(userId)) {
-        const newUser = new User(parseInt(userId), userName);
-        userLibrary.add(newUser);
-        Storage.save('users', userLibrary.getAll());
-        updateUserTable();
-        NotificationService.notify('Користувач доданий успішно');
-    } else {
-        NotificationService.notify('Невірний ID користувача');
+    // Перевіряємо, чи елементи не null
+    if (!nameElement || !emailElement) {
+        NotificationService.notify('Не вдалося знайти поля для введення.');
+        return;
     }
+
+    const userName = nameElement.value;
+    const userEmail = emailElement.value;
+
+    if (!Validation.isValidEmail(userEmail)) {
+        NotificationService.notify('Невірний формат email');
+        return;
+    }
+
+    if (userName === '' || userEmail === '') {
+        NotificationService.notify('Ім\'я та email є обов\'язковими');
+        return;
+    }
+
+    const newUser = new User(userId, userName, userEmail); // Додаємо email до моделі користувача
+    userLibrary.add(newUser);
+    Storage.save('users', userLibrary.getAll());
+    updateUserTable();
+    NotificationService.notify('Користувач доданий успішно');
 }
+
 
 // Видалення книги за ID
 function deleteBookById(bookId: number): void {
