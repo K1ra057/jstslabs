@@ -41,8 +41,15 @@ function updateBookTable(): void {
             <td>${book.author}</td>
             <td>${book.year}</td>
             <td>${book.isBorrowed ? 'Позичено' : 'Доступно'}</td>
+            <td><button data-id="${book.id}"   class="btn btn-danger btn-delete-book">Видалити книгу</td>
         </tr>`;
         bookList.insertAdjacentHTML('beforeend', row);
+        document.querySelectorAll<HTMLButtonElement>('.btn-delete-book').forEach(button => {
+            button.addEventListener('click', function () {
+                const bookId = (this.getAttribute('data-id') as string); // Explicitly type it as string
+                deleteBookById(Number(bookId)); // Convert to number since bookId is typed as number
+            });
+        });
     });
 }
 
@@ -56,8 +63,15 @@ function updateUserTable(): void {
             <td>${user.id}</td>
             <td>${user.name}</td>
             <td>${user.borrowedBooks.length}</td>
+            <td><button data-id="${user.id}"   class="btn btn-danger btn-delete-user">Видалити користувача</td>
         </tr>`;
         userList.insertAdjacentHTML('beforeend', row);
+        document.querySelectorAll<HTMLButtonElement>('.btn-delete-user').forEach(button => {
+            button.addEventListener('click', function () {
+                const userId = (this.getAttribute('data-id') as string); // Explicitly type it as string
+                deleteUserById(Number(userId)); // Convert to number since bookId is typed as number
+            });
+        });
     });
 }
 
@@ -104,9 +118,7 @@ function addUser(event: Event): void {
 }
 
 // Видалення книги за ID
-function deleteBookById(): void {
-    const bookIdInput = document.getElementById('deleteBookId') as HTMLInputElement;
-    const bookId = parseInt(bookIdInput.value);
+function deleteBookById(bookId: number): void {
 
     if (!isNaN(bookId)) {
         const bookToRemove = bookLibrary.getAll().find(book => book.id === bookId);
@@ -123,14 +135,10 @@ function deleteBookById(): void {
         NotificationService.notify('Невірний ID книги');
     }
 
-    // Очищуємо поле вводу після видалення
-    bookIdInput.value = '';
 }
 
 // Видалення користувача за ID
-function deleteUserById(): void {
-    const userIdInput = document.getElementById('deleteUserId') as HTMLInputElement;
-    const userId = parseInt(userIdInput.value);
+function deleteUserById(userId: number): void {
 
     if (!isNaN(userId)) {
         const userToRemove = userLibrary.getAll().find(user => user.id === userId);
@@ -147,12 +155,9 @@ function deleteUserById(): void {
         NotificationService.notify('Невірний ID користувача');
     }
 
-    // Очищуємо поле вводу після видалення
-    userIdInput.value = '';
 }
 
-// Позичання книги
-// Позичання книги користувачем
+
 // Позичання книги
 function borrowBook(event: Event): void {
     event.preventDefault();
@@ -232,7 +237,6 @@ function returnBook(event: Event): void {
     userIdInput.value = '';
 }
 // Пошук книг за автором або назвою
-// Пошук книг за автором або назвою
 function searchBooks(event: Event): void {
     event.preventDefault();
 
@@ -281,11 +285,13 @@ function updateSearchResults(books: Book[]): void {
 function init(): void {
     const bookForm = document.getElementById('book-form');
     const userForm = document.getElementById('user-form');
-    const deleteBookButton = document.getElementById('deleteBookButton');
-    const deleteUserButton = document.getElementById('deleteUserButton');
     const borrowBookForm = document.getElementById('borrow-form');
     const returnBookForm = document.getElementById('return-form');
     const searchForm = document.getElementById('search-form');
+
+
+
+
 
     // Форма для додавання книги
     if (bookForm) {
@@ -297,15 +303,6 @@ function init(): void {
         userForm.addEventListener('submit', addUser);
     }
 
-    // Кнопка для видалення книги за ID
-    if (deleteBookButton) {
-        deleteBookButton.addEventListener('click', deleteBookById);
-    }
-
-    // Кнопка для видалення користувача за ID
-    if (deleteUserButton) {
-        deleteUserButton.addEventListener('click', deleteUserById);
-    }
 
     // Форма для позичання книги
     if (borrowBookForm) {
@@ -321,12 +318,9 @@ function init(): void {
     if (searchForm) {
         searchForm.addEventListener('submit', searchBooks);
     }
-
     loadData();
+
 }
-
-
-
 
 // Ініціалізація програми
 window.onload = init;

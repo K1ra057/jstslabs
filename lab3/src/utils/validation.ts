@@ -4,7 +4,11 @@ export class Validation {
     }
 
     static isValidYear(year: string): boolean {
-        return /^[0-9]{4}$/.test(year);
+        const currentYear = new Date().getFullYear();
+        const yearNumber = parseInt(year);
+
+        // Перевіряємо, чи рік є чотиризначним числом і не перевищує поточний рік
+        return /^[0-9]{4}$/.test(year) && yearNumber <= currentYear;
     }
 
     static canUserBorrowMoreBooks(borrowedBooksCount: number, maxBooks: number): boolean {
