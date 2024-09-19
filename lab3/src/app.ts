@@ -198,6 +198,10 @@ class App {
         } else {
             NotificationService.notify('Невірний рік видання', 'error');
         }
+        (document.getElementById('title') as HTMLInputElement).value = '';
+        (document.getElementById('author') as HTMLInputElement).value = '';
+        (document.getElementById('year') as HTMLInputElement).value = '';
+
     }
 
     // Додавання користувача
@@ -235,6 +239,9 @@ class App {
         newUser.getUserInfo();
 
         NotificationService.notify('Користувач доданий успішно', 'success');
+        (document.getElementById('userName') as HTMLInputElement).value = '';
+        (document.getElementById('userEmail') as HTMLInputElement).value = '';
+
     }
 
     // Видалення книги за ID
