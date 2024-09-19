@@ -91,27 +91,31 @@ class App {
     // Додавання книги
     private addBook(event: Event): void {
         event.preventDefault();
-
+    
         const title = (document.getElementById('title') as HTMLInputElement).value.trim();
         const author = (document.getElementById('author') as HTMLInputElement).value.trim();
         const year = (document.getElementById('year') as HTMLInputElement).value.trim();
-
+    
         if (!title || !author || !year) {
             NotificationService.notify('Всі поля мають бути заповнені', 'error');
             return;
         }
-
+    
         if (Validation.isValidYear(year)) {
             const newBook = new Book(Date.now(), title, author, parseInt(year));
             this.bookLibrary.add(newBook);
             Storage.save('books', this.bookLibrary.getAll());
             this.updateBookTable();
+            
+            // Виводимо інформацію про книгу в консоль
+            newBook.getBookInfo(); 
+    
             NotificationService.notify('Книга додана успішно', 'success');
         } else {
             NotificationService.notify('Невірний рік видання', 'error');
         }
     }
-
+    
     // Додавання користувача
     private addUser(event: Event): void {
         event.preventDefault();
@@ -143,6 +147,8 @@ class App {
         Storage.save('users', this.userLibrary.getAll());
         this.updateUserTable();
         NotificationService.notify('Користувач доданий успішно', 'success');
+        newUser.getUserInfo(); // Виведення інформації про користувача в консоль
+
     }
 
     // Видалення книги за ID
