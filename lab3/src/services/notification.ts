@@ -1,17 +1,22 @@
 import { Modal } from 'bootstrap';
 
 export class NotificationService {
-    static notify(message: string, type: 'info' | 'error' = 'info'): void {
+    static notify(message: string, type: 'info' | 'error' | 'success' = 'info'): void {
         const modalMessage = document.getElementById('modal-message')!;
         const modalElement = document.getElementById('notificationModal')!;
         
-        // Створюємо інстанс модального вікна через Bootstrap
         const notificationModal = new Modal(modalElement);
 
-        // Встановлюємо повідомлення в модальне вікно
         modalMessage.textContent = message;
 
-        // Відкриваємо модальне вікно
+        // Можна додати логіку для стилізації повідомлень в залежності від типу
+        if (type === 'success') {
+            modalElement.classList.add('modal-success');
+        } else if (type === 'error') {
+            modalElement.classList.add('modal-error');
+        }
+
         notificationModal.show();
     }
 }
+

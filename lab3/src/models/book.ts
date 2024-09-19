@@ -35,4 +35,5 @@ export class Book implements IBook {
         console.log(`Year: ${this.year}`);
         console.log(`Status: ${this.isBorrowed ? 'Borrowed' : 'Available'}`);
     }
+    
 }
