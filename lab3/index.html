@@ -16,15 +16,15 @@
             <form id="book-form" class="row g-3">
                 <div class="col-md-4">
                     <label for="title" class="form-label">Назва книги</label>
-                    <input type="text" class="form-control" id="title" placeholder="Введіть назву">
+                    <input type="text" class="form-control" id="title" placeholder="Введіть назву" required>
                 </div>
                 <div class="col-md-4">
                     <label for="author" class="form-label">Автор</label>
-                    <input type="text" class="form-control" id="author" placeholder="Введіть автора">
+                    <input type="text" class="form-control" id="author" placeholder="Введіть автора" required>
                 </div>
                 <div class="col-md-4">
                     <label for="year" class="form-label">Рік видання</label>
-                    <input type="text" class="form-control" id="year" placeholder="Введіть рік">
+                    <input type="text" class="form-control" id="year" placeholder="Введіть рік" required>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Додати книгу</button>
@@ -32,32 +32,28 @@
             </form>
         </div>
 
-<!-- Форма для додавання користувача -->
-<div class="form-section mb-5">
-    <h3>Додати користувача</h3>
-    <form id="user-form" class="row g-3">
-        <!-- Автоматичне створення ID, тому поле приховане -->
-        <input type="hidden" id="userId">
-        
-        <div class="col-md-6">
-            <label for="userName" class="form-label">Ім'я користувача</label>
-            <input type="text" class="form-control" id="userName" placeholder="Введіть ім'я">
+        <!-- Форма для додавання користувача -->
+        <div class="form-section mb-5">
+            <h3>Додати користувача</h3>
+            <form id="user-form" class="row g-3">
+                <!-- Автоматичне створення ID, тому поле приховане -->
+                <input type="hidden" id="userId">
+                
+                <div class="col-md-6">
+                    <label for="userName" class="form-label">Ім'я користувача</label>
+                    <input type="text" class="form-control" id="userName" placeholder="Введіть ім'я" required>
+                </div>
+                
+                <div class="col-md-6">
+                    <label for="userEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="userEmail" placeholder="Введіть email" required>
+                </div>
+                
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Додати користувача</button>
+                </div>
+            </form>
         </div>
-        
-        <div class="col-md-6">
-            <label for="userEmail" class="form-label">Email</label>
-            <input type="email" class="form-control" id="userEmail" placeholder="Введіть email" required>
-        </div>
-        
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary">Додати користувача</button>
-        </div>
-    </form>
-</div>
-
-      
-
-       
 
         <!-- Форма для позичання книги -->
         <div class="form-section mb-5">
@@ -65,11 +61,11 @@
             <form id="borrow-form" class="row g-3">
                 <div class="col-md-6">
                     <label for="borrowBookId" class="form-label">ID книги</label>
-                    <input type="text" class="form-control" id="borrowBookId" placeholder="Введіть ID книги">
+                    <input type="text" class="form-control" id="borrowBookId" placeholder="Введіть ID книги" required>
                 </div>
                 <div class="col-md-6">
                     <label for="borrowUserId" class="form-label">ID користувача</label>
-                    <input type="text" class="form-control" id="borrowUserId" placeholder="Введіть ID користувача">
+                    <input type="text" class="form-control" id="borrowUserId" placeholder="Введіть ID користувача" required>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Позичити книгу</button>
@@ -83,11 +79,11 @@
             <form id="return-form" class="row g-3">
                 <div class="col-md-6">
                     <label for="returnBookId" class="form-label">ID книги</label>
-                    <input type="text" class="form-control" id="returnBookId" placeholder="Введіть ID книги">
+                    <input type="text" class="form-control" id="returnBookId" placeholder="Введіть ID книги" required>
                 </div>
                 <div class="col-md-6">
                     <label for="returnUserId" class="form-label">ID користувача</label>
-                    <input type="text" class="form-control" id="returnUserId" placeholder="Введіть ID користувача">
+                    <input type="text" class="form-control" id="returnUserId" placeholder="Введіть ID користувача" required>
                 </div>
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary">Повернути книгу</button>
@@ -99,7 +95,7 @@
         <div class="form-section mb-5">
             <h3>Шукати книгу</h3>
             <form id="search-form" class="d-flex mb-3">
-                <input type="text" id="searchTerm" class="form-control me-2" placeholder="Назва або автор">
+                <input type="text" id="searchTerm" class="form-control me-2" placeholder="Назва або автор" required>
                 <button type="submit" class="btn btn-primary">Пошук</button>
             </form>
         </div>
@@ -134,7 +130,6 @@
                         <th>Автор</th>
                         <th>Рік</th>
                         <th>Статус</th>
-                        
                         <th>Видалити книгу</th>
                     </tr>
                 </thead>
@@ -142,48 +137,54 @@
                     <!-- Список книг буде динамічно додаватись -->
                 </tbody>
             </table>
+            <!-- Контролери пагінації для книг -->
+            <div id="book-pagination-controls" class="d-flex justify-content-center my-4">
+                <!-- Кнопки для пагінації будуть тут -->
+            </div>
         </div>
 
-<!-- Таблиця користувачів -->
-<div class="mb-5">
-    <h3>Список користувачів</h3>
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>ID</th>
-                <th>Ім'я</th>
-                <th>Email</th> <!-- Додано стовпець Email -->
-                <th>Позичені книги</th>
-                <th>Видалити користувача</th>
-            </tr>
-        </thead>
-        <tbody id="user-list">
-            <!-- Список користувачів буде динамічно додаватись -->
-        </tbody>
-    </table>
-</div>
-
-
-    <!-- Bootstrap модальне вікно для сповіщень -->
-<div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="notificationModalLabel">Повідомлення</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- Таблиця користувачів -->
+        <div class="mb-5">
+            <h3>Список користувачів</h3>
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Ім'я</th>
+                        <th>Email</th>
+                        <th>Позичені книги</th>
+                        <th>Видалити користувача</th>
+                    </tr>
+                </thead>
+                <tbody id="user-list">
+                    <!-- Список користувачів буде динамічно додаватись -->
+                </tbody>
+            </table>
+            <!-- Контролери пагінації для користувачів -->
+            <div id="user-pagination-controls" class="d-flex justify-content-center my-4">
+                <!-- Кнопки для пагінації будуть тут -->
+            </div>
         </div>
-        <div class="modal-body" id="modal-message">
-          <!-- Тут буде текст повідомлення -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./dist/main.js"></script>
-</body>
+        <!-- Bootstrap модальне вікно для сповіщень -->
+        <div class="modal fade" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="notificationModalLabel">Повідомлення</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="modal-message">
+                  <!-- Тут буде текст повідомлення -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрити</button>
+                </div>
+              </div>
+            </div>
+        </div>
+      
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="./dist/main.js"></script>
+    </body>
 </html>

@@ -8,6 +8,9 @@ import { Validation } from './utils/validation';
 class App {
     private bookLibrary: Library<Book>;
     private userLibrary: Library<User>;
+    private currentBookPage: number = 1;
+    private currentUserPage: number = 1;
+    private itemsPerPage: number = 5;
 
     constructor() {
         this.bookLibrary = new Library<Book>();
@@ -41,12 +44,21 @@ class App {
         this.updateUserTable();
     }
 
-    // Оновлення таблиці книг
+    // Отримання елементів для поточної сторінки
+    private getPaginatedItems<T>(items: T[], currentPage: number): T[] {
+        const startIndex = (currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        return items.slice(startIndex, endIndex);
+    }
+
+    // Оновлення таблиці книг з урахуванням пагінації
     private updateBookTable(): void {
         const bookList = document.getElementById('book-list')!;
         bookList.innerHTML = '';
 
-        this.bookLibrary.getAll().forEach((book) => {
+        const paginatedBooks = this.getPaginatedItems(this.bookLibrary.getAll(), this.currentBookPage);
+
+        paginatedBooks.forEach((book) => {
             const row = `<tr>
                 <td>${book.id}</td>
                 <td>${book.title}</td>
@@ -58,19 +70,23 @@ class App {
             bookList.insertAdjacentHTML('beforeend', row);
         });
 
-        // Додавання обробників подій після оновлення таблиці
+        // Додавання обробників подій для кнопок видалення
         document.querySelectorAll<HTMLButtonElement>('.btn-delete-book').forEach(button => {
             button.removeEventListener('click', this.handleDeleteBook);
             button.addEventListener('click', this.handleDeleteBook.bind(this));
         });
+
+        this.updateBookPaginationControls();
     }
 
-    // Оновлення таблиці користувачів
+    // Оновлення таблиці користувачів з урахуванням пагінації
     private updateUserTable(): void {
         const userList = document.getElementById('user-list')!;
         userList.innerHTML = '';
 
-        this.userLibrary.getAll().forEach((user) => {
+        const paginatedUsers = this.getPaginatedItems(this.userLibrary.getAll(), this.currentUserPage);
+
+        paginatedUsers.forEach((user) => {
             const row = `<tr>
                 <td>${user.id}</td>
                 <td>${user.name}</td>
@@ -81,41 +97,109 @@ class App {
             userList.insertAdjacentHTML('beforeend', row);
         });
 
-        // Додавання обробників подій після оновлення таблиці
+        // Додавання обробників подій для кнопок видалення
         document.querySelectorAll<HTMLButtonElement>('.btn-delete-user').forEach(button => {
             button.removeEventListener('click', this.handleDeleteUser);
             button.addEventListener('click', this.handleDeleteUser.bind(this));
+        });
+
+        this.updateUserPaginationControls();
+    }
+
+    // Оновлення контролерів пагінації для книг
+    private updateBookPaginationControls(): void {
+        const paginationControls = document.getElementById('book-pagination-controls')!;
+        paginationControls.innerHTML = '';
+
+        const totalBooks = this.bookLibrary.getAll().length;
+        const totalPages = Math.ceil(totalBooks / this.itemsPerPage);
+
+        if (this.currentBookPage > 1) {
+            const prevButton = `<button class="btn btn-primary me-2" id="prev-book-page">Попередня</button>`;
+            paginationControls.insertAdjacentHTML('beforeend', prevButton);
+        }
+
+        if (this.currentBookPage < totalPages) {
+            const nextButton = `<button class="btn btn-primary" id="next-book-page">Наступна</button>`;
+            paginationControls.insertAdjacentHTML('beforeend', nextButton);
+        }
+
+        document.getElementById('prev-book-page')?.addEventListener('click', () => {
+            if (this.currentBookPage > 1) {
+                this.currentBookPage--;
+                this.updateBookTable();
+            }
+        });
+
+        document.getElementById('next-book-page')?.addEventListener('click', () => {
+            if (this.currentBookPage < totalPages) {
+                this.currentBookPage++;
+                this.updateBookTable();
+            }
+        });
+    }
+
+    // Оновлення контролерів пагінації для користувачів
+    private updateUserPaginationControls(): void {
+        const paginationControls = document.getElementById('user-pagination-controls')!;
+        paginationControls.innerHTML = '';
+
+        const totalUsers = this.userLibrary.getAll().length;
+        const totalPages = Math.ceil(totalUsers / this.itemsPerPage);
+
+        if (this.currentUserPage > 1) {
+            const prevButton = `<button class="btn btn-primary me-2" id="prev-user-page">Попередня</button>`;
+            paginationControls.insertAdjacentHTML('beforeend', prevButton);
+        }
+
+        if (this.currentUserPage < totalPages) {
+            const nextButton = `<button class="btn btn-primary" id="next-user-page">Наступна</button>`;
+            paginationControls.insertAdjacentHTML('beforeend', nextButton);
+        }
+
+        document.getElementById('prev-user-page')?.addEventListener('click', () => {
+            if (this.currentUserPage > 1) {
+                this.currentUserPage--;
+                this.updateUserTable();
+            }
+        });
+
+        document.getElementById('next-user-page')?.addEventListener('click', () => {
+            if (this.currentUserPage < totalPages) {
+                this.currentUserPage++;
+                this.updateUserTable();
+            }
         });
     }
 
     // Додавання книги
     private addBook(event: Event): void {
         event.preventDefault();
-    
+
         const title = (document.getElementById('title') as HTMLInputElement).value.trim();
         const author = (document.getElementById('author') as HTMLInputElement).value.trim();
         const year = (document.getElementById('year') as HTMLInputElement).value.trim();
-    
+
         if (!title || !author || !year) {
             NotificationService.notify('Всі поля мають бути заповнені', 'error');
             return;
         }
-    
+
         if (Validation.isValidYear(year)) {
             const newBook = new Book(Date.now(), title, author, parseInt(year));
             this.bookLibrary.add(newBook);
             Storage.save('books', this.bookLibrary.getAll());
             this.updateBookTable();
-            
+
             // Виводимо інформацію про книгу в консоль
-            newBook.getBookInfo(); 
-    
+            newBook.getBookInfo();
+
             NotificationService.notify('Книга додана успішно', 'success');
         } else {
             NotificationService.notify('Невірний рік видання', 'error');
         }
     }
-    
+
     // Додавання користувача
     private addUser(event: Event): void {
         event.preventDefault();
@@ -146,9 +230,11 @@ class App {
         this.userLibrary.add(newUser);
         Storage.save('users', this.userLibrary.getAll());
         this.updateUserTable();
-        NotificationService.notify('Користувач доданий успішно', 'success');
-        newUser.getUserInfo(); // Виведення інформації про користувача в консоль
 
+        // Виводимо інформацію про користувача в консоль
+        newUser.getUserInfo();
+
+        NotificationService.notify('Користувач доданий успішно', 'success');
     }
 
     // Видалення книги за ID
@@ -240,7 +326,6 @@ class App {
 
         const bookIdInput = document.getElementById('returnBookId') as HTMLInputElement;
         const userIdInput = document.getElementById('returnUserId') as HTMLInputElement;
-
         const bookId = parseInt(bookIdInput.value);
         const userId = parseInt(userIdInput.value);
 
@@ -353,3 +438,4 @@ class App {
 window.addEventListener('DOMContentLoaded', () => {
     new App();
 });
+
