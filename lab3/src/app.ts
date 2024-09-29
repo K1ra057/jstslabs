@@ -327,7 +327,7 @@ class App {
       bookId,
       (b: Book) => b.id === bookId
     );
-    const user = this.userLibrary.findById(
+    let user = this.userLibrary.findById(
       userId,
       (u: User) => u.id === userId
     );
