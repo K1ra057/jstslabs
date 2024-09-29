@@ -23,7 +23,7 @@ class App {
     const storedBooks = Storage.load('books') || [];
     const storedUsers = Storage.load('users') || [];
 
-    storedBooks.forEach((bookData: any) => {
+    storedBooks.forEach((bookData: Book) => {
       const book = new Book(
         bookData.id,
         bookData.title,
@@ -34,7 +34,7 @@ class App {
       this.bookLibrary.add(book);
     });
 
-    storedUsers.forEach((userData: any) => {
+    storedUsers.forEach((userData: User) => {
       const user = new User(userData.id, userData.name, userData.email);
       user.borrowedBooks = userData.borrowedBooks;
       this.userLibrary.add(user);
@@ -327,7 +327,7 @@ class App {
       bookId,
       (b: Book) => b.id === bookId
     );
-    let user = this.userLibrary.findById(
+    const user = this.userLibrary.findById(
       userId,
       (u: User) => u.id === userId
     );
