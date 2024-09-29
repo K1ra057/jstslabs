@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
+    "types": ["mocha","jest","node"],
+    
     "target": "es5", // Какой стандарт JS использовать
+    "lib": ["es2015", "dom"],
     "module": "commonjs", // Как модули будут подключаться
     "strict": true, // Включить строгий режим, чтобы ошибок было меньше
     "esModuleInterop": true, // Чтобы с другими модулями дружил
