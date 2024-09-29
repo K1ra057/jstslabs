@@ -1,22 +1,24 @@
 import { Modal } from 'bootstrap';
 
 export class NotificationService {
-    static notify(message: string, type: 'info' | 'error' | 'success' = 'info'): void {
-        const modalMessage = document.getElementById('modal-message')!;
-        const modalElement = document.getElementById('notificationModal')!;
-        
-        const notificationModal = new Modal(modalElement);
+  static notify(
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info'
+  ): void {
+    const modalMessage = document.getElementById('modal-message')!;
+    const modalElement = document.getElementById('notificationModal')!;
 
-        modalMessage.textContent = message;
+    const notificationModal = new Modal(modalElement);
 
-        // Можна додати логіку для стилізації повідомлень в залежності від типу
-        if (type === 'success') {
-            modalElement.classList.add('modal-success');
-        } else if (type === 'error') {
-            modalElement.classList.add('modal-error');
-        }
+    modalMessage.textContent = message;
 
-        notificationModal.show();
+    // Можна додати логіку для стилізації повідомлень в залежності від типу
+    if (type === 'success') {
+      modalElement.classList.add('modal-success');
+    } else if (type === 'error') {
+      modalElement.classList.add('modal-error');
     }
-}
 
+    notificationModal.show();
+  }
+}
