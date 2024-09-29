@@ -93,9 +93,21 @@ class App {
       this.userLibrary.getAll(),
       this.currentUserPage
     );
+    
+
+
+
+
+
+
+
+
+
+
+
 
     paginatedUsers.forEach((user) => {
-      const row = `<tr>
+      let row = `<tr>
                 <td>${user.id}</td>
                 <td>${user.name}</td>
                 <td>${user.email}</td>
@@ -320,14 +332,14 @@ class App {
       'borrowUserId'
     ) as HTMLInputElement;
 
-    let bookId = parseInt(bookIdInput.value);
+    const bookId = parseInt(bookIdInput.value);
     const userId = parseInt(userIdInput.value);
 
 
 
 
 
-    
+
     const book = this.bookLibrary.findById(
       bookId,
       (b: Book) => b.id === bookId
