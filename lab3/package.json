@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "prettier": "prettier --write \"src/**/*.ts\"",
-    "prepare": "husky install",
+    "prepare": "husky",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "start": "webpack serve",
     "build": "webpack"
