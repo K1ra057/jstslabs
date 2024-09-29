@@ -20,8 +20,8 @@ class App {
 
   // Завантаження даних з LocalStorage
   private loadData(): void {
-    const storedBooks = Storage.load('books') || [];
-    const storedUsers = Storage.load('users') || [];
+    const storedBooks = Storage.loadBooks('books') || [];
+    const storedUsers = Storage.loadUsers('users') || [];
 
     storedBooks.forEach((bookData: Book) => {
       const book = new Book(
@@ -208,7 +208,7 @@ class App {
     if (Validation.isValidYear(year)) {
       const newBook = new Book(Date.now(), title, author, parseInt(year));
       this.bookLibrary.add(newBook);
-      Storage.save('books', this.bookLibrary.getAll());
+      Storage.saveBooks('books', this.bookLibrary.getAll());
       this.updateBookTable();
 
       // Виводимо інформацію про книгу в консоль
@@ -256,7 +256,7 @@ class App {
 
     const newUser = new User(userId, userName, userEmail);
     this.userLibrary.add(newUser);
-    Storage.save('users', this.userLibrary.getAll());
+    Storage.saveUsers('users', this.userLibrary.getAll());
     this.updateUserTable();
 
     // Виводимо інформацію про користувача в консоль
@@ -280,7 +280,7 @@ class App {
 
     if (bookToRemove) {
       this.bookLibrary.remove(bookToRemove);
-      Storage.save('books', this.bookLibrary.getAll());
+      Storage.saveBooks('books', this.bookLibrary.getAll());
       this.updateBookTable();
       NotificationService.notify('Книга успішно видалена', 'success');
     } else {
@@ -301,7 +301,7 @@ class App {
 
     if (userToRemove) {
       this.userLibrary.remove(userToRemove);
-      Storage.save('users', this.userLibrary.getAll());
+      Storage.saveUsers('users', this.userLibrary.getAll());
       this.updateUserTable();
       NotificationService.notify('Користувач успішно видалений', 'success');
     } else {
@@ -320,9 +320,14 @@ class App {
       'borrowUserId'
     ) as HTMLInputElement;
 
-    const bookId = parseInt(bookIdInput.value);
+    let bookId = parseInt(bookIdInput.value);
     const userId = parseInt(userIdInput.value);
 
+
+
+
+
+    
     const book = this.bookLibrary.findById(
       bookId,
       (b: Book) => b.id === bookId
@@ -352,8 +357,8 @@ class App {
 
     if (user.borrowBook(bookId)) {
       book.borrow();
-      Storage.save('books', this.bookLibrary.getAll());
-      Storage.save('users', this.userLibrary.getAll());
+      Storage.saveBooks('books', this.bookLibrary.getAll());
+      Storage.saveUsers('users', this.userLibrary.getAll());
       this.updateBookTable();
       this.updateUserTable();
       NotificationService.notify('Книга успішно позичена', 'success');
@@ -399,8 +404,8 @@ class App {
     }
 
     if (user.returnBookById(bookId, this.bookLibrary)) {
-      Storage.save('books', this.bookLibrary.getAll());
-      Storage.save('users', this.userLibrary.getAll());
+      Storage.saveBooks('books', this.bookLibrary.getAll());
+      Storage.saveUsers('users', this.userLibrary.getAll());
       this.updateBookTable();
       this.updateUserTable();
       NotificationService.notify('Книга успішно повернена', 'success');
