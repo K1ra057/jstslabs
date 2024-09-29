@@ -1,9 +1,6 @@
 @echo Off
 setlocal
-eslint \"src/**/*.ts\" --fix
-echo blablablabla
+npm run lint
 @REM npm test
-git add .
-git commit -m "%~1"
+git commit -m "husky6766"
 endlocal
-
