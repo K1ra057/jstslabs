@@ -1,5 +1,5 @@
-import { Book } from './book'; 
-import { User } from './user'; 
+import { Book } from './book';
+import { User } from './user';
 
 export class Storage {
   // Для збереження масивів книг або користувачів

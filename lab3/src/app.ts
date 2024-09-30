@@ -323,11 +323,6 @@ class App {
     const bookId = parseInt(bookIdInput.value);
     const userId = parseInt(userIdInput.value);
 
-
-
-
-
-
     const book = this.bookLibrary.findById(
       bookId,
       (b: Book) => b.id === bookId
