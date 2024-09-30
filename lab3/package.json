@@ -36,6 +36,11 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-server": "^5.1.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": ".husky/precommit.bat"
+    }
+  },
   "dependencies": {
     "bootstrap": "^5.3.3"
   }
