@@ -211,7 +211,7 @@ class App {
 
 
 
-      let newBook = new Book(Date.now(), title, author, parseInt(year));
+      const newBook = new Book(Date.now(), title, author, parseInt(year));
       this.bookLibrary.add(newBook);
       Storage.saveBooks('books', this.bookLibrary.getAll());
       this.updateBookTable();
