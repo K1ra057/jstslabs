@@ -320,7 +320,7 @@ class App {
       'borrowUserId'
     ) as HTMLInputElement;
 
-    let bookId = parseInt(bookIdInput.value);
+    const bookId = parseInt(bookIdInput.value);
     const userId = parseInt(userIdInput.value);
 
     const book = this.bookLibrary.findById(
