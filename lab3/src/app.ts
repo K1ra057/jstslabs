@@ -190,7 +190,7 @@ class App {
   private addBook(event: Event): void {
     event.preventDefault();
 
-    let title = (
+    const title = (
       document.getElementById('title') as HTMLInputElement
     ).value.trim();
     const author = (
@@ -201,16 +201,11 @@ class App {
     ).value.trim();
 
     if (!title || !author || !year) {
-      NotificationService.notify('Всі поля мають бути заповнені', 'error')
+      NotificationService.notify('Всі поля мають бути заповнені', 'error');
       return;
     }
 
     if (Validation.isValidYear(year)) {
-
-
-
-
-
       const newBook = new Book(Date.now(), title, author, parseInt(year));
       this.bookLibrary.add(newBook);
       Storage.saveBooks('books', this.bookLibrary.getAll());

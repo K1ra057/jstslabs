@@ -5,7 +5,7 @@
   "scripts": {
     "prettier": "prettier --write \"src/**/*.ts\"",
     "test": "mocha -r ts-node/register 'test/**/*.spec.ts'",
-    "prepare": "husky",
+    "prepare": "cd .. && husky lab3/.husky",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "start": "webpack serve",
     "build": "webpack"
@@ -42,6 +42,7 @@
     }
   },
   "dependencies": {
-    "bootstrap": "^5.3.3"
+    "bootstrap": "^5.3.3",
+    "jest": "^29.7.0"
   }
 }

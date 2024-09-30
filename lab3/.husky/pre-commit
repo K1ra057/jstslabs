@@ -1,0 +1,4 @@
+cd lab3
+npm  run lint
+npm run prettier
+npm test
