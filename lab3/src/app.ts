@@ -201,12 +201,17 @@ class App {
     ).value.trim();
 
     if (!title || !author || !year) {
-      NotificationService.notify('Всі поля мають бути заповнені', 'error');
+      NotificationService.notify('Всі поля мають бути заповнені', 'error')
       return;
     }
 
     if (Validation.isValidYear(year)) {
-      const newBook = new Book(Date.now(), title, author, parseInt(year));
+
+
+
+
+
+      let newBook = new Book(Date.now(), title, author, parseInt(year));
       this.bookLibrary.add(newBook);
       Storage.saveBooks('books', this.bookLibrary.getAll());
       this.updateBookTable();
