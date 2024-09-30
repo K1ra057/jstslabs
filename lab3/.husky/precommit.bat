@@ -1,2 +1,2 @@
 @echo Off
-npm test && npm run prettier && npm lint
+npm run prettier && npm lint  && npm test 
