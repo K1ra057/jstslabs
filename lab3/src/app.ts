@@ -190,7 +190,7 @@ class App {
   private addBook(event: Event): void {
     event.preventDefault();
 
-    const title = (
+    let title = (
       document.getElementById('title') as HTMLInputElement
     ).value.trim();
     const author = (
