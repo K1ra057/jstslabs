@@ -9,5 +9,10 @@
     "mocha": "^10.7.3",
     "prettier": "^3.3.3",
     "ts-node": "^10.9.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lab3/.husky/precommit.bat"
+    }
   }
 }
